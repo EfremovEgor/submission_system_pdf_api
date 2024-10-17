@@ -1,5 +1,6 @@
 import Fastify from "fastify";
 import routes from "@src/routes/pdf/submission.js";
+process.env.TZ = "Europe/Moscow";
 export const fastify = Fastify({
 	logger: true,
 });
