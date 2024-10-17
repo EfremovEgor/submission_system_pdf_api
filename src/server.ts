@@ -1,9 +1,8 @@
 import Fastify from "fastify";
 import routes from "@src/routes/pdf/submission.js";
 export const fastify = Fastify({
-	logger: false,
+	logger: true,
 });
-
 // Declare a route
 fastify.get("/", async function handler(request: any, reply: any) {
 	return { hello: "world" };

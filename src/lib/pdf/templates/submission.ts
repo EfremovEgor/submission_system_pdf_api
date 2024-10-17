@@ -21,30 +21,43 @@ export const generateSubmissionPDFBytes = async (
 	data: submissionPDFTemplateData
 ): Promise<Buffer> => {
 	const documentDefinition = {
-		header: {
-			stack: [
-				{
-					text: data.conference.short_name,
-					style: { bold: true },
-				},
-				{ text: `Submission #${data.submission.localId}` },
-				{ text: `Session: ${data.topic.name}` },
-				{ text: `Submitted at: ${data.submission.createdAt}` },
-				{ text: `Status: ${data.submission.status}` },
-				{
-					canvas: [
-						{
-							type: "line",
-							x1: 0,
-							y1: 5,
-							x2: 595 - 2 * 40,
-							y2: 5,
-							lineWidth: 1,
-						},
-					],
-				},
-			],
-			margin: [50, 20, 50, 20],
+		header: (currentPage: number, pageCount: number) => {
+			return {
+				stack: [
+					{
+						columns: [
+							[
+								{
+									text: data.conference.short_name,
+									style: { bold: true },
+								},
+								`Submission #${data.submission.localId}`,
+								`Session: ${data.topic.name}`,
+								`Submitted at: ${data.submission.createdAt}`,
+								`Status: ${data.submission.status}`,
+							],
+							{
+								width: "auto",
+								text: `Page ${currentPage}/${pageCount}`,
+							},
+						],
+					},
+					{
+						canvas: [
+							{
+								type: "line",
+								x1: 0,
+								y1: 5,
+								x2: 595 - 2 * 40,
+								y2: 5,
+								lineWidth: 1,
+							},
+						],
+					},
+				],
+
+				margin: [50, 20, 50, 20],
+			};
 		},
 		content: [
 			{
